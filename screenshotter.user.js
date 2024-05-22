@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Copy ASIN Products Screenshot with Images
+// @name         Copy ASIN Products Screenshot with ASIN Text
 // @namespace    http://tampermonkey.net/
-// @version      1.2
-// @description  Capture and copy ASIN products with images as a screenshot in a fixed grid layout of 1000px width
+// @version      1.3
+// @description  Capture and copy ASIN products with images as a screenshot, replacing button text with ASINs in a fixed grid layout of 1000px width
 // @author       You
 // @match        https://www.amazon.de/*
 // @grant        GM_setClipboard
@@ -30,6 +30,14 @@
                 const clonedElement = element.cloneNode(true);
                 clonedElement.style.visibility = 'visible'; // Ensure visibility
                 clonedElement.style.width = '250px'; // Set each item width to 250px
+
+                // Replace the button text with the ASIN
+                const asin = element.querySelector('input[data-asin]').getAttribute('data-asin');
+                const buttonText = clonedElement.querySelector('.a-button-text');
+                if (buttonText) {
+                    buttonText.textContent = asin; // Set the button text to the ASIN
+                }
+
                 container.appendChild(clonedElement);
             });
 
