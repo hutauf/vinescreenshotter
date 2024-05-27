@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         Copy ASIN Products Screenshot with ASIN Text
+// @name         Copy ASIN Products Screenshot with ASIN Text and Adjusted Tax Price
 // @namespace    http://tampermonkey.net/
-// @version      1.3
-// @description  Capture and copy ASIN products with images as a screenshot, replacing button text with ASINs in a fixed grid layout of 1000px width
+// @version      1.4
+// @description  Capture and copy ASIN products with images as a screenshot, replacing button text with ASINs in a fixed grid layout of 1000px width and adjusting tax price position
 // @author       You
 // @match        https://www.amazon.de/*
 // @grant        GM_setClipboard
@@ -36,6 +36,14 @@
                 const buttonText = clonedElement.querySelector('.a-button-text');
                 if (buttonText) {
                     buttonText.textContent = asin; // Set the button text to the ASIN
+                }
+
+                // Adjust the position of the tax price field
+                const taxPriceElement = clonedElement.querySelector('.ave-taxinfo-text');
+                if (taxPriceElement) {
+                    taxPriceElement.style.transform = 'translate(0px, 0px)'; // Move it lower
+                    taxPriceElement.style.position = 'relative';
+                    taxPriceElement.style.top = '20px'; // Adjust this value as needed
                 }
 
                 container.appendChild(clonedElement);
